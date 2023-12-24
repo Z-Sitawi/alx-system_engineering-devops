@@ -5,16 +5,19 @@ while [ $i -le 20 ]
 do
         case $i in
         4)
-        echo "bad luck from China"
+		echo "$i
+bad luck from China"
         ;;
         9)
-        echo "bad luck from Japan"
+		echo "$i
+bad luck from Japan"
         ;;
         17)
-        echo "bad luck from Italy"
+		echo "$i
+bad luck from Italy"
         ;;
 	*)
-        echo "$i"
+		echo "$i"
         ;;
 esac
         ((i++))
