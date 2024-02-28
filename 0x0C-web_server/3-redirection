@@ -1,31 +1,33 @@
 #!/usr/bin/env bash
-# Configures an Nginx server so that /redirect_me redirects to another page.
-# The redirection is configured as a "301 Moved Permanently"
+# Configures a new Ubuntu machine by installing Nginx where it should be listening on port 80
+# Serve a page that would return a Hello World string
+# Redirect /redirect_me to another page with a "301 Moved Permanently" response
 
-# apt update and installing nginx
-sudo apt-get update -y -qq && \
-         sudo apt-get install nginx -y
+# Update package lists and install Nginx
+sudo apt-get -y update
+sudo apt-get -y install nginx
 
-# starting nginx service
-sudo service nginx start
+# Create a simple HTML file with "Hello World!" content
+sudo sh -c 'echo "Hello World!" > /var/www/html/index.nginx-debian.html'
 
-# allowing nginx on firewall
-sudo ufw allow 'Nginx HTTP'
+# Configure Nginx to listen on port 80 and serve the created HTML file
+sudo sh -c 'cat <<EOF > /etc/nginx/sites-available/default
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
 
-# Give the user ownership to website files for easy editing
-sudo chown -R "$USER":"$USER" /var/www/html
-sudo chmod -R 755 /var/www
+    root /var/www/html;
+    index index.nginx-debian.html;
 
-# Backup default index
-cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
 
-# Creating new index
-echo -e "Hello World!" > /var/www/html/index.nginx-debian.html
+    location /redirect_me {
+        return 301 https://www.example.com/new_page; # Change this URL to the desired redirection destination
+    }
+}
+EOF'
 
-# Setting up /redirect_me to a youtube video
-sudo sed -i '24i\       rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
-
-# Restarting nginx
+# Restart Nginx
 sudo service nginx restart
-
-echo -e "\nCompleted.\n"
