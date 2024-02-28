@@ -1,36 +1,28 @@
 #!/usr/bin/env bash
 # Installs Nginx with the following configurations:
 #+    Listens on port 80.
-#+    Returns a page containing "Holberton School" when queried
+#+    Returns a page containing "Hello World!" when queried
 #++    at the root with a curl GET request.
 
 # Update package lists and install Nginx
-apt-get update
-apt-get install -y nginx
+sudo apt-get update -y -qq && \
+	 sudo apt-get install nginx -y
 
-# Configure Nginx to listen on port 80
-cat > /etc/nginx/sites-available/default <<EOF
-server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
+# starting nginx service
+sudo service nginx start
 
-    root /var/www/html;
-    index index.html index.htm index.nginx-debian.html;
+# allowing nginx on firewall
+sudo ufw allow 'Nginx HTTP'
 
-    server_name _;
+# Give the user ownership to website files for easy editing
+sudo chown -R "$USER":"$USER" /var/www/html
+sudo chmod -R 755 /var/www
 
-    location / {
-        try_files \$uri \$uri/ =404;
-    }
+# Backup default index
+cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
 
-    location = / {
-        echo "HTTP/1.1 200 OK";
-        echo "Content-Type: text/html";
-        echo "";
-        echo "Hello World!";
-    }
-}
-EOF
+# Creating new index
+echo -e "Hello World!" | dd status=none of=/var/www/html/index.nginx-debian.html
 
-# Restart Nginx without using systemctl
-kill -s HUP $(cat /var/run/nginx.pid)
+# Restarting nginx
+sudo service nginx restart
