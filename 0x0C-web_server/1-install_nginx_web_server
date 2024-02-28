@@ -4,18 +4,33 @@
 #+    Returns a page containing "Holberton School" when queried
 #++    at the root with a curl GET request.
 
+# Update package lists and install Nginx
 apt-get update
 apt-get install -y nginx
 
-mkdir /etc/nginx/html
-touch /etc/nginx/html/index.html
-echo "Hello World!" > /etc/nginx/html/index.html
-printf %s "server {
-     listen      80 default_server;
-     listen      [::]:80 default_server;
-     root        /etc/nginx/html;
-     index       index.html index.htm;
-}
-" > /etc/nginx/sites-available/default
+# Configure Nginx to listen on port 80
+cat > /etc/nginx/sites-available/default <<EOF
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
 
-service nginx restart
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name _;
+
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
+
+    location = / {
+        echo "HTTP/1.1 200 OK";
+        echo "Content-Type: text/html";
+        echo "";
+        echo "Hello World!";
+    }
+}
+EOF
+
+# Restart Nginx without using systemctl
+kill -s HUP $(cat /var/run/nginx.pid)
