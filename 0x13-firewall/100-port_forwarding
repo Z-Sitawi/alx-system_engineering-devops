@@ -1,0 +1,15 @@
+#!/bin/bash
+
+sudo echo "1" > /proc/sys/net/ipv4/ip_forward
+
+# Redirect traffic from port 8080 to port 80
+sudo iptables -t nat -A PREROUTING -p tcp --dport 8080 -j REDIRECT --to-port 80
+
+# Save the iptables configuration
+sudo mkdir /etc/iptables/
+sudo touch /etc/iptables/rules.v4
+sudo chmod 777 /etc/iptables/rules.v4
+iptables-save > /etc/iptables/rules.v4
+
+# Print confirmation message
+echo "Port $PORT_8080 redirected to port $PORT_80"
