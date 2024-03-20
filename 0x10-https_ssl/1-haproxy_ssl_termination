@@ -18,13 +18,13 @@ defaults
     timeout client  50000
     timeout server  50000
 
-frontend myfrontend
+frontend zak-frontend
     bind *:443 ssl crt /etc/haproxy/certs/www.z-sitawi.tech.pem
     http-request set-header X-Forwarded-Proto https
     acl is_root path -i /
-    use_backend mybackend if is_root
+    use_backend zak-backend if is_root
 
-backend mybackend
+backend zak-backend
     balance roundrobin
-    server web-01 54.236.194.249:80 check
-    server web-02 100.25.179.160:80 check
+    server web-01 34.234.201.128:80 check
+    server web-02 54.157.149.19:80 check
