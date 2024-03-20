@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Client configuration file
-Host 34.234.201.128 
-	IdentityFile ~/.ssh/school
-	PasswordAuthentication no
+echo "Host 34.234.201.128" >> ~/.ssh/config
+echo "    IdentityFile ~/.ssh/school" >> ~/.ssh/config
+echo "    PasswordAuthentication no" >> ~/.ssh/config
+
