@@ -26,5 +26,5 @@ frontend zak-frontend
 
 backend zak-backend
     balance roundrobin
-    server web-01 34.234.201.128:80 check
-    server web-02 54.157.149.19:80 check
+    server web-01 54.172.81.249:80 check
+    server web-02 34.202.234.215:80 check
