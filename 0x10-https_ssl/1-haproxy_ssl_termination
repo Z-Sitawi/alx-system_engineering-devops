@@ -19,7 +19,7 @@ defaults
     timeout server  50000
 
 frontend zak-frontend
-    bind *:443 ssl crt /etc/haproxy/certs/www.z-sitawi.tech.pem
+    bind *:443 ssl crt /etc/haproxy/certs/www.z-sitawi.tech
     http-request set-header X-Forwarded-Proto https
     acl is_root path -i /
     use_backend zak-backend if is_root
