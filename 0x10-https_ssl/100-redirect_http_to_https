@@ -34,5 +34,5 @@ frontend https-in
 
 backend mybackend
     balance roundrobin
-    server web-01 54.236.194.249:80 check
-    server web-02 100.25.179.160:80 check
+    server web-01 54.172.81.249:80 check
+    server web-02 34.202.234.215:80 check
