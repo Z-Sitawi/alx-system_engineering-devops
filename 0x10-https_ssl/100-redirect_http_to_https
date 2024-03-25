@@ -25,7 +25,7 @@ frontend http-in
     redirect scheme https code 301 if !{ ssl_fc }
 
 frontend https-in
-    bind *:443 ssl crt /etc/haproxy/certs/www.z-sitawi.tech.pem
+    bind *:443 ssl crt /etc/haproxy/certs/www.z-sitawi.tech
     mode http
     option forwardfor
     http-request set-header X-Forwarded-Proto https
@@ -34,5 +34,5 @@ frontend https-in
 
 backend mybackend
     balance roundrobin
-    server web-01 54.236.194.249:80 check
-    server web-02 100.25.179.160:80 check
+    server web-01 54.172.81.249:80 check
+    server web-02 34.202.234.215:80 check
