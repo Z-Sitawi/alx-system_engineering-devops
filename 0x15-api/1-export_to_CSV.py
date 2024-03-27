@@ -7,10 +7,11 @@ Requirements:
     Format must be: "USER_ID","USERNAME","TASK_COMPLETED_STATUS","TASK_TITLE"
     File name must be: USER_ID.csv
 """
+import csv
 import re
 import requests
 import sys
-import csv
+
 
 REST_API = "https://jsonplaceholder.typicode.com"
 
@@ -28,4 +29,7 @@ if __name__ == '__main__':
                                         quoting=csv.QUOTE_ALL
                                         )
                 for task in tasks:
-                    csv_writer.writerow([task['userId'], emp_name, task['completed'], task['title']])
+                    csv_writer.writerow([task['userId'],
+                                         emp_name, task['completed'],
+                                         task['title']]
+                                        )
