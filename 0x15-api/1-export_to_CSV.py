@@ -21,7 +21,7 @@ if __name__ == '__main__':
             emp_id = int(sys.argv[1])
             req = requests.get('{}/users/{}'.format(REST_API, emp_id)).json()
             todos = requests.get('{}/todos'.format(REST_API)).json()
-            emp_name = req.get('name')
+            username = req.get('username')
             tasks = [x for x in todos if x['userId'] == emp_id]
             with open('{}.csv'.format(emp_id), "w") as file:
                 csv_writer = csv.writer(file, delimiter=",",
@@ -30,6 +30,6 @@ if __name__ == '__main__':
                                         )
                 for task in tasks:
                     csv_writer.writerow([task['userId'],
-                                         emp_name, task['completed'],
+                                         username, task['completed'],
                                          task['title']]
                                         )
