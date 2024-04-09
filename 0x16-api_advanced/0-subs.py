@@ -17,19 +17,15 @@ def number_of_subscribers(subreddit):
 
     # A unique User-Agent header to identify the client
     headers = {'User-Agent': 'MyBot/0.0.1'}
+    response = requests.get(url, headers=headers, allow_redirects=False)
 
-    try:
-        response = requests.get(url, headers=headers, allow_redirects=False)
+    if response.status_code == 200:
+        data = response.json()
 
-        if response.status_code == 200:
-            data = response.json()
+        subscribers = data['data']['subscribers']
 
-            subscribers = data['data']['subscribers']
-
-            return subscribers
-        elif response.status_code == 404:  # Subreddit not found
-            return 0
-        else:
-            return 0
-    except requests.exceptions.RequestException:
+        return subscribers
+    elif response.status_code == 404:  # Subreddit not found
+        return 0
+    else:
         return 0
