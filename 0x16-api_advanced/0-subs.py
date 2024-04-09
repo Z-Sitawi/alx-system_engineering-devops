@@ -4,7 +4,6 @@ and returns the number of subscribers (not active users, total subscribers)
 for a given subreddit.
 """
 import requests
-from sys import argv
 
 
 def number_of_subscribers(subreddit):
@@ -17,7 +16,7 @@ def number_of_subscribers(subreddit):
     url = f"https://www.reddit.com/r/{subreddit}/about.json"
 
     # A unique User-Agent header to identify the client
-    headers = {'User-Agent': 'MyBot/0.0.1'}
+    headers = {'User-Agent': 'sitawi/0.0.14'}
     response = requests.get(url, headers=headers, allow_redirects=False)
 
     if response.status_code == 200:
@@ -30,7 +29,3 @@ def number_of_subscribers(subreddit):
         return 0
     else:
         return 0
-
-
-if __name__ == "__main__":
-    number_of_subscribers(argv[1])
